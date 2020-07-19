@@ -11,7 +11,6 @@ public class Cuenta {
 		this.rutTitular = rutTitular;
 		this.contraseñaCuenta = contraseñaCuenta;
 		this.saldo = saldo;
-		this.estado = estado;
 	}
 	/**
 	 * @return the numeroCuenta
