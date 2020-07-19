@@ -1,5 +1,6 @@
 package SistemaBancario.logica;
 import ucn.*;
+import SistemaBancario.dominio.*;
 public class ListaPersona {
 	private Persona [] lp;
 	private int max;
@@ -36,7 +37,7 @@ public class ListaPersona {
 	public Persona BuscarPersona(Persona rut) {
 		int i = 0;
 		for(i = 0;i < cant ; i++) {
-			if(lp[i].GetRut.equals(rut)) {
+			if(lp[i].getRut().equals(rut)) {
 				break;
 			}
 		}
