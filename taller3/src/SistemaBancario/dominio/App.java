@@ -7,6 +7,7 @@ public class App {
 		// TODO Auto-generated method stub
 		StdOut.println("hello world again");
 		System.out.println("uwu");
+		System.out.println("owo");
 	}
 
 }
