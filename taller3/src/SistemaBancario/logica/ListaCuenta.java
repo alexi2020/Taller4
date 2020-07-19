@@ -1,5 +1,8 @@
 package SistemaBancario.logica;
 
+import SistemaBancario.dominio.CuentaChequeraElectronica;
+import SistemaBancario.dominio.CuentaCorriente;
+import SistemaBancario.logica.*;
 public class ListaCuenta {
 	private Cuenta [] lc;
 	private int max;
@@ -33,16 +36,40 @@ public class ListaCuenta {
 	public int GetCantidadCuentas() {
 		return cant;
 	}
-	public Cuenta BuscarCuenta(Cuenta  {das
-		int i = 0;aaddasdasdsadsdasdjjk
+	public Cuenta BuscarCuenta(Cuenta numero) {
+		int i = 0;
 		for(i = 0;i < cant ; i++) {
-			if(lp[i].GetRut.equals(rut)) {
+			if(lc[i].GetNumerocodigo.equals(rut)) {
 				break;
 			}
 		}
 		if(i == cant) {
 			return null;
 		}
-		return lp[i];
+		return lc[i];
 	}
+	@Override
+	public String toString() {
+		String salida = "";
+		int i = 0;
+		for(i = 0; i < cant ; i++) {
+			Cuenta cuenta = getCuenta(i);
+			
+			if (cuenta instanceof CuentaCorriente ) {
+				CuentaCorriente cuentacorriente = (CuentaCorriente) cuenta;
+				salida += cuentacorriente.toString();
+			}
+			else{
+				CuentaChequeraElectronica chequera = (CuentaChequeraElectronica) cuenta;
+				salida += chequera.toString();
+			}
+		return salida;	
+		}
+		
+	}
+
+	
+
+
+
 }
