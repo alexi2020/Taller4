@@ -7,7 +7,7 @@ public class CuentaChequeraElectronica extends Cuenta {
 	private boolean estado=true;
 	public CuentaChequeraElectronica(String numeroCuenta, String rutTitular, String contraseñaCuenta, long saldo) {
 		super(numeroCuenta,rutTitular,contraseñaCuenta,saldo);
-	}
+	}//hola
 	
 	
 	/**

@@ -7,7 +7,7 @@ public class CuentaCorriente extends Cuenta{
 	private boolean estado=true;
 	public CuentaCorriente(String numeroCuenta, String rutTitular, String contraseñaCuenta, long saldo) {
 		super(numeroCuenta,rutTitular,contraseñaCuenta,saldo);
-	}
+	}//hola
 	
 	/**
 	 * @return the estado

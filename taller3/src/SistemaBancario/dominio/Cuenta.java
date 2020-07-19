@@ -6,6 +6,7 @@ public class Cuenta {
 	private String contraseñaCuenta;
 	private long saldo;
 	
+	
 	public Cuenta(String numeroCuenta, String rutTitular, String contraseñaCuenta, long saldo) {
 		this.numeroCuenta = numeroCuenta;
 		this.rutTitular = rutTitular;
@@ -64,6 +65,6 @@ public class Cuenta {
 	 * @return the estado
 	 */
 	
-	
+	//wena
 
 }
