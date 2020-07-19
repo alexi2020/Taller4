@@ -1,4 +1,4 @@
-package SistemaBancario.dominio;
+package SistemaBancario.logica;
 import ucn.*;
 
 public class App {
