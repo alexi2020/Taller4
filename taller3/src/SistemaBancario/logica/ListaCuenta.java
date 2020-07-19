@@ -3,6 +3,7 @@ package SistemaBancario.logica;
 import SistemaBancario.dominio.CuentaChequeraElectronica;
 import SistemaBancario.dominio.CuentaCorriente;
 import SistemaBancario.logica.*;
+import SistemaBancario.dominio.*;
 public class ListaCuenta {
 	private Cuenta [] lc;
 	private int max;
@@ -36,10 +37,10 @@ public class ListaCuenta {
 	public int GetCantidadCuentas() {
 		return cant;
 	}
-	public Cuenta BuscarCuenta(Cuenta numero) {
+	public Cuenta BuscarCuenta(String numero) {
 		int i = 0;
 		for(i = 0;i < cant ; i++) {
-			if(lc[i].GetNumerocodigo.equals(rut)) {
+			if(lc[i].getNumeroCuenta().equals(numero)) {
 				break;
 			}
 		}
@@ -48,6 +49,29 @@ public class ListaCuenta {
 		}
 		return lc[i];
 	}
+	
+	
+	
+	public boolean EliminarCuenta(String numero) {
+		int i = 0;
+		for(i = 0; i< cant ; i++){
+			if(lc[i].getNumeroCuenta().equals(numero)) {
+				break;
+			}
+		}
+		if(i == cant) {
+			return false;
+		}
+		else {
+			for(int k = i ; k<cant-1 ;k++) {
+				lc[k] = lc[k+1];
+			}
+			cant--;
+			return true;
+		}
+	}
+	
+	
 	@Override
 	public String toString() {
 		String salida = "";
@@ -63,8 +87,9 @@ public class ListaCuenta {
 				CuentaChequeraElectronica chequera = (CuentaChequeraElectronica) cuenta;
 				salida += chequera.toString();
 			}
-		return salida;	
+			
 		}
+		return salida;
 		
 	}
 
