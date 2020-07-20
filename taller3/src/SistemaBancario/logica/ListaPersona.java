@@ -34,7 +34,7 @@ public class ListaPersona {
 	public int GetCantidadPersona() {
 		return cant;
 	}
-	public Persona BuscarPersona(Persona rut) {
+	public Persona BuscarPersona(String rut) {
 		int i = 0;
 		for(i = 0;i < cant ; i++) {
 			if(lp[i].getRut().equals(rut)) {

@@ -16,7 +16,7 @@ public class ListaCuenta {
 		this.max = max;
 		
 	}
-	public boolean IngresarPersona(Cuenta cuenta) {
+	public boolean IngresarCuenta(Cuenta cuenta) {
 		if (cant < max) {
 			lc[cant] = cuenta;
 			cant++;
