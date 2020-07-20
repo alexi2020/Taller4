@@ -23,7 +23,22 @@ public class SistemaBancarioImpl implements SistemaBancario {
 		return listaCuentas.IngresarCuenta(cuentaChequeraE);
 	}
 	public boolean verificarCuentaInicioSesion(String rut ,String contraseñaInicio) {
-		Persona persona=listaPersonas.BuscarPersona(rut)
+		Persona persona=listaPersonas.BuscarPersona(rut);
+		if(persona==null) {
+			throw new NullPointerException("la persona no existe");
+		
+		}
+		else {
+			if(persona.getContraseñaInicio().equals(contraseñaInicio)) {
+				return true;
+			}
+			else {
+				return false;
+			}
+				
+		}
+	}
+	public boolean Depositar(long monto,String rut, String numeroCuenta) {
 		
 	}
 	
