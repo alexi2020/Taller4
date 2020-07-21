@@ -6,7 +6,7 @@ public class CuentaChequeraElectronica extends Cuenta {
 	private int montoGiro=500;
 	public CuentaChequeraElectronica(String numeroCuenta, String rutTitular, String contraseñaCuenta, long saldo) {
 		super(numeroCuenta,rutTitular,contraseñaCuenta,saldo);
-	}//hola
+	}
 	
 	
 	/**

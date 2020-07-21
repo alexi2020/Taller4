@@ -8,7 +8,7 @@ public class ListaCuenta {
 	private Cuenta [] lc;
 	private int max;
 	private int cant;
-	
+	//
 	
 	public ListaCuenta(int max) {
 		lc = new Cuenta[max];

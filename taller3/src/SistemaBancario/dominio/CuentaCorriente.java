@@ -4,7 +4,7 @@ public class CuentaCorriente extends Cuenta{
 	private long limiteDinero=2000000;
 	private int minimoMontoTrans=5000;
 	private int montoGiro=500;
-	//private boolean Estado=true;
+	
 	
 	public CuentaCorriente(String numeroCuenta, String rutTitular, String contraseñaCuenta, long saldo) {
 		super(numeroCuenta,rutTitular,contraseñaCuenta,saldo);

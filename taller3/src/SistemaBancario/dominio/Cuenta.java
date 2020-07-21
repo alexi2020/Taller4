@@ -22,7 +22,7 @@ public  class Cuenta  {
 	}
 	
 	
-	//public abstract void cambiarEstado();
+	
 		
 
 	/**
