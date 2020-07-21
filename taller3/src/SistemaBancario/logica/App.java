@@ -25,8 +25,7 @@ public class App {
 				for(int j = 0 ;j <10 ;j++) {
 					matriz[i][j] = reg.getInt();
 					
-				}
-				
+				}	
 				
 			}
 			if(sistema.ingresarPersona(rut, nombre, apellido, contraseña, matriz)){
@@ -90,17 +89,82 @@ public class App {
 		}
 		arch1.close();
 	}
+	public static void Menu()throws IOException{
+		System.out.println("1) Depositar");
+		System.out.println("2) Girar");
+		System.out.println("3) Transferencia");
+		System.out.println("4) Informacion Cuenta");
+		System.out.println("5) Actualizar contraseña");
+		System.out.println("6) Bloquear Cuenta");
+		System.out.println("7) Cerrar sesion");
+	}
 	
 	
 	
-	public static void Menu(SistemaBancario sistema) {
-		StdOut.println("1) ");
-		StdOut.println("2) 2:");
-		StdOut.println("3) 2");
-		StdOut.println("4) 3has:");
-		StdOut.println("5) 4:");
-		StdOut.println("6) R4::");
-		StdOut.println("7)4S:");
+	public static void Datos(SistemaBancario sistema) throws IOException{
+		StdOut.println("1) Bienvenido a Banco BCI-DEUDAS ");
+		StdOut.print("ingrese rut: ");
+		String rut=StdIn.readString();
+		StdOut.print("Ingrese contraseña: ");
+		String contraseñaI=StdIn.readString();
+		try {
+			if(sistema.verificarCuentaInicioSesion(rut, contraseñaI)) {
+				Menu();
+				System.out.print("ingrese opcion a realizar: ");
+				int opcione=StdIn.readInt();
+				while(opcione!=7) {
+					if(opcione==1) {
+						System.out.print("Ingrese numero de su cuenta: ");
+						String numeroCuenta=StdIn.readString();
+						System.out.print("Ingrese monto a depositar: ");
+						long monto=StdIn.readLong();
+						while(monto<0) {
+							System.out.println("ingrese monto valido");
+							System.out.print("Ingrese monto a depositar: ");
+							monto=StdIn.readLong();
+						}
+						try {
+							if(sistema.Depositar(monto, rut, numeroCuenta)) {
+								System.out.println("Deposito hecho exitosamente");
+							}
+							else {
+								System.out.println("Su cuenta Corriente alcanzo el maximo valor de saldo permitido");
+							}
+						}catch(IllegalArgumentException ex){
+							System.out.println(ex.getMessage());
+						}
+					}
+					if(opcione==2) {
+						System.out.print("ingrese su cuenta (Numero Cuenta): ");
+						String cuentaP=StdIn.readString();
+						System.out.print("ingrese contraseña Cuenta: ");
+						String contraC=StdIn.readString();
+						System.out.print("ingrese monto a girar: ");
+						long montoG=StdIn.readLong();
+						while(montoG<0) {
+							System.out.println("monto ingresado incorrecto");
+							System.out.print("ingrese monto a girar: ");
+							montoG=StdIn.readLong();
+						}
+						try {
+							if(sistema.Girar(montoG, cuentaP, contraC, rut)) {
+								System.out.println("Giro completado");
+								System.out.println("Saldo:$"+sistema.obtenerSaldo(cuentaP));
+								
+							}
+							else {
+								System.out.println("saldo insuficiente");
+							}
+						}catch(IllegalArgumentException ex) {
+							System.out.println(ex.getMessage());
+						}
+					}
+				}
+			}
+		}catch (NullPointerException ex) {
+			System.out.println(ex.getMessage());
+		}
+	
 	}
 
 	public static void main(String[] args) {

@@ -23,40 +23,6 @@ public class CuentaChequeraElectronica extends Cuenta {
 	public void setLimiteDinero(boolean limiteDinero) {
 		this.limiteDinero = limiteDinero;
 	}
-
-
-	/**
-	 * @return the minimoMontoTrans
-	 */
-	public int getMinimoMontoTrans() {
-		return minimoMontoTrans;
-	}
-
-
-	/**
-	 * @param minimoMontoTrans the minimoMontoTrans to set
-	 */
-	public void setMinimoMontoTrans(int minimoMontoTrans) {
-		this.minimoMontoTrans = minimoMontoTrans;
-	}
-
-
-	/**
-	 * @return the montoGiro
-	 */
-	public int getMontoGiro() {
-		return montoGiro;
-	}
-
-
-	/**
-	 * @param montoGiro the montoGiro to set
-	 */
-	public void setMontoGiro(int montoGiro) {
-		this.montoGiro = montoGiro;
-	}
-
-
 	public String toString() {
 		String r="";
 		if(getEstado()) {

@@ -6,6 +6,8 @@ public  class Cuenta  {
 	private String contraseñaCuenta;
 	private long saldo;
 	private static boolean estado=true;
+	private static int minimoMontoTrans=5000;
+	private static int montoGiro=500;
 	
 	
 	public Cuenta(String numeroCuenta, String rutTitular, String contraseñaCuenta, long saldo) {
@@ -25,6 +27,30 @@ public  class Cuenta  {
 	
 		
 
+	/**
+	 * @return the minimoMontoTrans
+	 */
+	public static int getMinimoMontoTrans() {
+		return minimoMontoTrans;
+	}
+	/**
+	 * @param minimoMontoTrans the minimoMontoTrans to set
+	 */
+	public static void setMinimoMontoTrans(int minimoMontoTrans) {
+		Cuenta.minimoMontoTrans = minimoMontoTrans;
+	}
+	/**
+	 * @return the montoGiro
+	 */
+	public static int getMontoGiro() {
+		return montoGiro;
+	}
+	/**
+	 * @param montoGiro the montoGiro to set
+	 */
+	public static void setMontoGiro(int montoGiro) {
+		Cuenta.montoGiro = montoGiro;
+	}
 	/**
 	 * @return the estado
 	 */

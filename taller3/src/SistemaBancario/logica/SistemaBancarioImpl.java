@@ -72,7 +72,7 @@ public class SistemaBancarioImpl implements SistemaBancario {
 			
 		}
 		else {
-			throw new NullPointerException("cuenta no es del propietario"); //cambiar excepcion null 
+			throw new IllegalArgumentException("cuenta no es del propietario"); 
 		}
 		
 	}
@@ -83,31 +83,20 @@ public class SistemaBancarioImpl implements SistemaBancario {
         String contraseñaCuenta = cuenta.getContraseñaCuenta();
 
         if(cuenta==null || !cuenta.getRutTitular().equals(rutTitular)) {
-            throw new NullPointerException("cuenta no exite y/o cuenta no es del propietario");
+            throw new IllegalArgumentException("cuenta no exite y/o cuenta no es del propietario");
         }
         else {
         	if(contraseñaCuenta.equals(contraseña)) {
-        		if(cuenta instanceof CuentaCorriente) {
-        			CuentaCorriente cuentaC=(CuentaCorriente)cuenta;
-        			if(monto>0 && monto<cuentaC.getSaldo()) {
-        				cuentaC.setSaldo(cuentaC.getSaldo()-monto);
-        				return true;
-        			}
-        			return false;
-        			
+        		if(monto<cuenta.getSaldo()) {
+        			cuenta.setSaldo(cuenta.getSaldo()-(monto+(cuenta.getMontoGiro())));
+        			return true;
         		}
-        		else {
-        			CuentaChequeraElectronica cuentaE=(CuentaChequeraElectronica)cuenta;
-        			if(monto>0 && monto<cuentaE.getSaldo()) {
-        				cuentaE.setSaldo(cuentaE.getSaldo()-monto);
-        				return true;
-        			}
-        			return false;
-        		}
-        	}
-        	else {
         		return false;
         	}
+        	else {
+        		throw new IllegalArgumentException("contraseña de cuenta incorrecta");
+        	}
+        	
         }
         	
     }
