@@ -134,7 +134,7 @@ public class App {
 							System.out.println(ex.getMessage());
 						}
 					}
-					if(opcione==2) {
+					if(opcione==2) {//
 						System.out.print("ingrese su cuenta (Numero Cuenta): ");
 						String cuentaP=StdIn.readString();
 						System.out.print("ingrese contraseña Cuenta: ");
