@@ -8,7 +8,7 @@ public class SistemaBancarioImpl implements SistemaBancario {
 	public SistemaBancarioImpl() {
 		listaPersonas=new ListaPersona(100);
 		listaCuentas=new ListaCuenta(2);
-	//	h
+	//	
 	}
 	public boolean ingresarPersona(String rut,String nombre,String apellido,String contraseña, int matriz[][]) {
 		Persona persona=new Persona(rut,nombre,apellido,contraseña,matriz);
