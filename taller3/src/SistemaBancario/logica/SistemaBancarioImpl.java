@@ -15,12 +15,25 @@ public class SistemaBancarioImpl implements SistemaBancario {
 		return listaPersonas.IngresarPersona(persona);
 	}
 	public boolean ingresarCuentaCorriente(String numeroCuenta,String rutTitular,String contraseña,long saldo) {
-		Cuenta cuentaC=new CuentaCorriente(numeroCuenta,rutTitular,contraseña,saldo);
-		return listaCuentas.IngresarCuenta(cuentaC);
+		Cuenta cuenta = listaCuentas.BuscarCuenta(numeroCuenta);
+		if(cuenta == null) {
+			Cuenta cuentaC=new CuentaCorriente(numeroCuenta,rutTitular,contraseña,saldo);
+			return listaCuentas.IngresarCuenta(cuentaC);
+		}
+		else{
+			throw new NullPointerException("Posible Hackeo");
+		}
 	}
 	public boolean ingresarCuentaChequeraElectronica(String numeroCuenta,String rutTitular,String contraseña,long saldo) {
-		Cuenta cuentaChequeraE=new CuentaChequeraElectronica(numeroCuenta,rutTitular,contraseña,saldo);
-		return listaCuentas.IngresarCuenta(cuentaChequeraE);
+		Cuenta cuenta = listaCuentas.BuscarCuenta(numeroCuenta);
+		if(cuenta == null) {
+			Cuenta cuentaChequeraE=new CuentaChequeraElectronica(numeroCuenta,rutTitular,contraseña,saldo);
+			return listaCuentas.IngresarCuenta(cuentaChequeraE);
+		}
+		else {
+			throw new NullPointerException("Posible Hackeo");
+		}
+		
 	}
 	public boolean verificarCuentaInicioSesion(String rut ,String contraseñaInicio) {
 		Persona persona=listaPersonas.BuscarPersona(rut);
@@ -120,7 +133,7 @@ public class SistemaBancarioImpl implements SistemaBancario {
 			 if(tarjetaCoordenadas[F1][C1]==numero1&&tarjetaCoordenadas[F2][C2]==numero2&&tarjetaCoordenadas[F3][C3]==numero3) {
 				if(cuenta instanceof CuentaCorriente) {
 					CuentaCorriente cuentaC=(CuentaCorriente)cuenta;
-					if((cuentaC.getSaldo()+monto)<cuentaC.LimiteDinero()&&(cuentaO.getSaldo()-monto)>0) {
+					if((cuentaC.getSaldo()+monto)<cuentaC.LimiteDinero()&&(cuentaO.getSaldo()-monto)>5000) {
 						cuentaC.setSaldo(monto+(cuentaC.getSaldo()));
 						cuentaO.setSaldo(cuentaO.getSaldo()-monto);
 						return true;
