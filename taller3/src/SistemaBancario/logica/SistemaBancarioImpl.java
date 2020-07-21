@@ -107,14 +107,39 @@ public class SistemaBancarioImpl implements SistemaBancario {
 			 return cuenta.getSaldo();
 		 }
 	}
-	public boolean Transferir(long monto,String rut, String numeroCuentaDesti,int numero1,int numero2,int numero3) {
-		Cuenta cuenta = listaCuentas.BuscarCuenta(numeroCuentaDesti);
-		Persona persona=listaPersonas.BuscarPersona(rut);
-		 if(cuenta==null) {
-			 throw new NullPointerException("cuenta no existe");
+	public boolean Transferir(long monto,String numeroCuentaOrigen, String numeroCuentaDesti,int C1 ,int F1,int numero1,
+			int C2,int F2,int numero2,int C3,int F3,int numero3) {
+		 Cuenta cuenta = listaCuentas.BuscarCuenta(numeroCuentaDesti);
+		 Cuenta cuentaO = listaCuentas.BuscarCuenta(numeroCuentaOrigen);
+		 Persona persona=listaPersonas.BuscarPersona(cuentaO.getRutTitular());
+		 if(cuenta==null||cuentaO==null) {
+			 throw new NullPointerException("cuenta de origen y/o destinatario no existe");
 		 }
 		 else {
-			persona.getTarjetaCoordenadas()
+			 int [][]tarjetaCoordenadas=persona.getTarjetaCoordenadas();
+			 if(tarjetaCoordenadas[F1][C1]==numero1&&tarjetaCoordenadas[F2][C2]==numero2&&tarjetaCoordenadas[F3][C3]==numero3) {
+				if(cuenta instanceof CuentaCorriente) {
+					CuentaCorriente cuentaC=(CuentaCorriente)cuenta;
+					if((cuentaC.getSaldo()+monto)<cuentaC.LimiteDinero()&&(cuentaO.getSaldo()-monto)>0) {
+						cuentaC.setSaldo(monto+(cuentaC.getSaldo()));
+						cuentaO.setSaldo(cuentaO.getSaldo()-monto);
+						return true;
+					}
+					return false;
+				}
+				else {
+					CuentaChequeraElectronica cuentaE=(CuentaChequeraElectronica)cuenta;
+					if((cuentaO.getSaldo()-monto)>0) {
+						cuentaE.setSaldo(monto+(cuentaE.getSaldo()));
+						cuentaO.setSaldo(cuentaO.getSaldo()-monto);
+						return true;
+					}
+					return false;
+				}
+						
+						
+			}
+			return false;
 		 }
 		 
 	

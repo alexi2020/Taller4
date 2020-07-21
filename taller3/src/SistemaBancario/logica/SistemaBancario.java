@@ -18,7 +18,8 @@ public interface SistemaBancario {
 	
 	public long obtenerSaldo(String numeroCuenta);
 	
-	public boolean Transferir(long monto,String rut, String numeroCuentaDesti,int numero1,int numero2,int numero3);
+	public boolean Transferir(long monto,String numeroCuentaOrigen, String numeroCuentaDesti,int C1 ,int F1,int numero1,
+			int C2 ,int F2,int numero2,int C3 ,int F3,int numero3);
 	
 	public String ObtenerInformacionCuenta(String rut);
 	
