@@ -10,7 +10,7 @@ public class App {
 	public static void LeerPersonas(SistemaBancario sistema) throws IOException {
 		ArchivoEntrada arch1 = new ArchivoEntrada("Personas.txt");
 		
-		while(!arch1.isEndFile()) {
+		while(!arch1.isEndFile()) {//d
 			
 			Registro reg = arch1.getRegistro();
 	
