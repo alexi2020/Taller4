@@ -126,7 +126,7 @@ public class SistemaBancarioImpl implements SistemaBancario {
 						return true;
 					}
 					return false;
-				}
+				}//
 				else {
 					CuentaChequeraElectronica cuentaE=(CuentaChequeraElectronica)cuenta;
 					if((cuentaO.getSaldo()-monto)>0) {
