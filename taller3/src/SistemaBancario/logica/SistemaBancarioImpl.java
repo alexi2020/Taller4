@@ -36,7 +36,7 @@ public class SistemaBancarioImpl implements SistemaBancario {
 				return false;
 			}
 				
-		}
+		}//
 	}
 	public boolean Depositar(long monto,String rut, String numeroCuenta) {
 		
