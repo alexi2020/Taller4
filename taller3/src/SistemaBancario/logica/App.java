@@ -12,11 +12,11 @@ public class App {
 		System.out.println(c.getEstado());
 		c.setEstado(false);
 		System.out.println(c.getEstado());
-		String []vector= {"A","B","C"};
-		String []vector1= {"1","2","3"};
+		String []vector= {"A","B","C","D","E","F","G","H","I","J"};
+		String []vector1= {"1","2","3","4","5"};
 		
-		int X=(int)Math.random()*2;
-		int i=(int)Math.random()*2;
+		int X=(int)Math.random()*9;
+		int i=(int)Math.random()*6;
 		System.out.print("ingrese cordenada "+vector[X]+vector1[i]+": ");
 		int numero1=StdIn.readInt();
 		
