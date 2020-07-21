@@ -1,10 +1,11 @@
 package SistemaBancario.dominio;
 
-public class Cuenta {
+public  class Cuenta  {
 	private String numeroCuenta;
 	private String rutTitular;
 	private String contraseñaCuenta;
 	private long saldo;
+	private static boolean estado=true;
 	
 	
 	public Cuenta(String numeroCuenta, String rutTitular, String contraseñaCuenta, long saldo) {
@@ -18,6 +19,23 @@ public class Cuenta {
 	 */
 	public String getNumeroCuenta() {
 		return numeroCuenta;
+	}
+	
+	
+	//public abstract void cambiarEstado();
+		
+
+	/**
+	 * @return the estado
+	 */
+	public boolean getEstado() {
+		return estado;
+	}
+	/**
+	 * @param estado the estado to set
+	 */
+	public void setEstado(boolean estado) {
+		this.estado = estado;
 	}
 	/**
 	 * @param numeroCuenta the numeroCuenta to set

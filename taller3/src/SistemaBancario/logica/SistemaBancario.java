@@ -14,7 +14,7 @@ public interface SistemaBancario {
 	
 	public boolean Depositar(long monto,String rut, String numeroCuenta);
 	
-	public boolean Girar(long monto ,String numeroCuenta ,String contraseña);
+	public boolean Girar(long monto ,String numeroCuenta ,String contraseña,String rut);
 	
 	public long obtenerSaldo(String numeroCuenta);
 	
@@ -22,11 +22,11 @@ public interface SistemaBancario {
 	
 	public String ObtenerInformacionCuenta(String rut);
 	
-	public boolean BloquearCuentas(String numeroCuenta,String contraseñaInicio ,String contraseñaCuenta);
+	public boolean BloquearCuentas(String rut,String numeroCuenta,String contraseñaInicio ,String contraseñaCuenta);
 	
 	public boolean ActualizarContraseñaInicioSesion(String rut,String contraseñaActual,String contraseñaNueva);
 	
-	public boolean ActualizarContraseñaCuenta(String rut,String contraseñaActual,String contraseñaNueva);
+	public boolean ActualizarContraseñaCuenta(String rut,String numeroCuenta,String contraseñaActual,String contraseñaNueva);
 	
 
 }

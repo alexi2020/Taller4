@@ -1,41 +1,31 @@
 package SistemaBancario.dominio;
 
 public class CuentaCorriente extends Cuenta{
-	private boolean limiteDinero=true;
+	private long limiteDinero=2000000;
 	private int minimoMontoTrans=5000;
 	private int montoGiro=500;
-	private boolean estado=true;
+	//private boolean Estado=true;
+	
 	public CuentaCorriente(String numeroCuenta, String rutTitular, String contraseñaCuenta, long saldo) {
 		super(numeroCuenta,rutTitular,contraseñaCuenta,saldo);
 	}//hola
 	
-	/**
-	 * @return the estado
-	 */
-	public boolean isEstado() {
-		return estado;
-	}
-
-	/**
-	 * @param estado the estado to set
-	 */
-	public void setEstado(boolean estado) {
-		this.estado = estado;
-	}
+	
 	
 
+	
 	
 	/**
 	 * @return the limiteDinero
 	 */
-	public boolean isLimiteDinero() {
+	public long LimiteDinero() {
 		return limiteDinero;
 	}
 
 	/**
 	 * @param limiteDinero the limiteDinero to set
 	 */
-	public void setLimiteDinero(boolean limiteDinero) {
+	public void setLimiteDinero(long limiteDinero) {
 		this.limiteDinero = limiteDinero;
 	}
 
@@ -68,8 +58,16 @@ public class CuentaCorriente extends Cuenta{
 	}
 
 	public String toString() {
-		return "CuentaCorriente\n NumeroCuenta:"+getNumeroCuenta()+" RutTitular:"+getRutTitular()+" ContraseñaCuenta:"
-				+getContraseñaCuenta()+" Saldo:"+getSaldo();
+		String r="";
+		if(getEstado()) {
+			r+="CuentaCorriente\n NumeroCuenta:"+getNumeroCuenta()+"Estado:Activo ContraseñaCuenta:"
+					+getContraseñaCuenta()+" Saldo:"+getSaldo();
+		}
+		else {
+			r+="CuentaCorriente\n NumeroCuenta:"+getNumeroCuenta()+"Estado:Bloqueada ContraseñaCuenta:"
+					+getContraseñaCuenta()+" Saldo:"+getSaldo();
+		}
+		return r;
 	
 	}
 

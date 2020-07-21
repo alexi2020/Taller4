@@ -4,7 +4,6 @@ public class CuentaChequeraElectronica extends Cuenta {
 	private boolean limiteDinero=false;
 	private int minimoMontoTrans=5000;
 	private int montoGiro=500;
-	private boolean estado=true;
 	public CuentaChequeraElectronica(String numeroCuenta, String rutTitular, String contraseñaCuenta, long saldo) {
 		super(numeroCuenta,rutTitular,contraseñaCuenta,saldo);
 	}//hola
@@ -58,25 +57,22 @@ public class CuentaChequeraElectronica extends Cuenta {
 	}
 
 
-	/**
-	 * @return the estado
-	 */
-	public boolean isEstado() {
-		return estado;
-	}
-
-	/**
-	 * @param estado the estado to set
-	 */
-	public void setEstado(boolean estado) {
-		this.estado = estado;
-	}
-	
-
 	public String toString() {
-		return "CuentaChequeraElectronica\n NumeroCuenta:"+getNumeroCuenta()+" RutTitular:"+getRutTitular()+" ContraseñaCuenta:"
-				+getContraseñaCuenta()+" Saldo:"+getSaldo();
+		String r="";
+		if(getEstado()) {
+			r+="CuentaChequeraElectronica\n NumeroCuenta:"+getNumeroCuenta()+"Estado:Activo ContraseñaCuenta:"
+					+getContraseñaCuenta()+" Saldo:"+getSaldo();
+		}
+		else {
+			r+="CuentaChequeraElectronica\n NumeroCuenta:"+getNumeroCuenta()+"Estado:Bloqueada ContraseñaCuenta:"
+					+getContraseñaCuenta()+" Saldo:"+getSaldo();
+		}
+		return r;
 	
 	}
+	
+		
+	
+	
 
 }

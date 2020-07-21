@@ -81,7 +81,7 @@ public class ListaCuenta {
 			
 			if (cuenta instanceof CuentaCorriente ) {
 				CuentaCorriente cuentacorriente = (CuentaCorriente) cuenta;
-				salida += cuentacorriente.toString();
+				salida +=cuentacorriente.toString();
 			}
 			else{
 				CuentaChequeraElectronica chequera = (CuentaChequeraElectronica) cuenta;
