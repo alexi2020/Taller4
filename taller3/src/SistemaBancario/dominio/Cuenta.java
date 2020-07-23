@@ -5,7 +5,6 @@ public  class Cuenta  {
 	private String rutTitular;
 	private String contraseñaCuenta;
 	private long saldo;
-	private static boolean estado=true;
 	private static int minimoMontoTrans=5000;
 	private static int montoGiro=500;
 	
@@ -50,18 +49,6 @@ public  class Cuenta  {
 	 */
 	public static void setMontoGiro(int montoGiro) {
 		Cuenta.montoGiro = montoGiro;
-	}
-	/**
-	 * @return the estado
-	 */
-	public boolean getEstado() {
-		return estado;
-	}
-	/**
-	 * @param estado the estado to set
-	 */
-	public void setEstado(boolean estado) {
-		this.estado = estado;
 	}
 	/**
 	 * @param numeroCuenta the numeroCuenta to set

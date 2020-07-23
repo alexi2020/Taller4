@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Random;
 
 public class App {
+	
 	public static void LeerPersonas(SistemaBancario sistema) throws IOException {
 		ArchivoEntrada arch1 = new ArchivoEntrada("Personas.txt");
 		
@@ -17,14 +18,12 @@ public class App {
 			String rut = reg.getString();
 			String nombre = reg.getString();
 			String apellido = reg.getString();
-			String contraseña = reg.getString();
-						
+			String contraseña = reg.getString();		
 			int [][] matriz = new int [5][10];
 			for(int i = 0 ; i<5 ;i++ ) {
 				reg = arch1.getRegistro();
 				for(int j = 0 ;j <10 ;j++) {
 					matriz[i][j] = reg.getInt();
-					
 				}	
 				
 			}
@@ -41,10 +40,10 @@ public class App {
 	}		
 		
 	public static void  LeerCuenta(SistemaBancario sistema) throws IOException {
-		ArchivoEntrada arch1 = new ArchivoEntrada("Cuenta.txt");
+		ArchivoEntrada arch2 = new ArchivoEntrada("Cuentas.txt");
 		
-		while(!arch1.isEndFile()) {
-			Registro reg = arch1.getRegistro();
+		while(!arch2.isEndFile()) {
+			Registro reg = arch2.getRegistro();
 			
 			String numeroCuenta = reg.getString();
 			
@@ -87,9 +86,13 @@ public class App {
 				}
 			}
 		}
-		arch1.close();
+		arch2.close();
 	}
-	public static void Menu()throws IOException{
+	public static void MenuInicio() {
+		System.out.println("1)Iniciar Sesion");
+		System.out.println("2)Cerrar Sistema");
+	}
+	public static void Menu(){
 		System.out.println("1) Depositar");
 		System.out.println("2) Girar");
 		System.out.println("3) Transferencia");
@@ -98,92 +101,262 @@ public class App {
 		System.out.println("6) Bloquear Cuenta");
 		System.out.println("7) Cerrar sesion");
 	}
+	public static void posicionesAleatoria(int[]vector2,int[]vector3)throws IOException{
+		for(int j=0;j<3;j++) {
+			double X=Math.random()*9;
+			double i= Math.random()*4;
+			int f=(int)i;
+			int C=(int)X;
+			vector2[j]=f;
+			vector3[j]=C;
+		}
+	}
+	public static String MenuSecundario() {
+		System.out.print("Volver a menu principal(si/no): ");
+		String eleccion=StdIn.readString();
+		while(!eleccion.equalsIgnoreCase("si")) {
+			System.out.print("Volver a menu principal(si/no): ");
+			eleccion=StdIn.readString();
+		}
+		return eleccion;
+	}
 	
 	
 	
 	public static void Datos(SistemaBancario sistema) throws IOException{
-		StdOut.println("1) Bienvenido a Banco BCI-DEUDAS ");
-		StdOut.print("ingrese rut: ");
-		String rut=StdIn.readString();
-		StdOut.print("Ingrese contraseña: ");
-		String contraseñaI=StdIn.readString();
-		try {
-			if(sistema.verificarCuentaInicioSesion(rut, contraseñaI)) {
-				Menu();
-				System.out.print("ingrese opcion a realizar: ");
-				int opcione=StdIn.readInt();
-				while(opcione!=7) {
-					if(opcione==1) {
-						System.out.print("Ingrese numero de su cuenta: ");
-						String numeroCuenta=StdIn.readString();
-						System.out.print("Ingrese monto a depositar: ");
-						long monto=StdIn.readLong();
-						while(monto<0) {
-							System.out.println("ingrese monto valido");
-							System.out.print("Ingrese monto a depositar: ");
-							monto=StdIn.readLong();
-						}
-						try {
-							if(sistema.Depositar(monto, rut, numeroCuenta)) {
-								System.out.println("Deposito hecho exitosamente");
+		StdOut.println("Bienvenido a Banco BCI-DEUDAS ");
+		MenuInicio();
+		System.out.print("Ingrese opcion: ");
+		int eleccion=StdIn.readInt();
+		while(eleccion!=2) {
+			StdOut.print("ingrese rut: ");
+			String rut=StdIn.readString();
+			StdOut.print("Ingrese contraseña: ");
+			String contraseñaI=StdIn.readString();
+			try {
+				if(sistema.verificarCuentaInicioSesion(rut, contraseñaI)) {
+					Menu();
+					System.out.print("ingrese opcion a realizar: ");
+					int opcione=StdIn.readInt();
+					while(opcione!=7) {
+						while(true) {
+							if(opcione==1) {
+								System.out.print("Ingrese numero de su cuenta: ");
+								String numeroCuenta=StdIn.readString();
+								System.out.print("Ingrese monto a depositar: ");
+								long monto=StdIn.readLong();
+								while(monto<0) {
+									System.out.println("ingrese monto valido");
+									System.out.print("Ingrese monto a depositar: ");
+									monto=StdIn.readLong();
+								}
+								try {
+									if(sistema.Depositar(monto, rut, numeroCuenta)) {
+										System.out.println("Deposito hecho exitosamente");
+									}
+									else {
+										System.out.println("Su cuenta Corriente alcanzo el maximo valor de saldo permitido");
+									}
+								}catch(IllegalArgumentException ex){
+									System.out.println(ex.getMessage());
+								}
+								String volverMenuP=MenuSecundario();
+								if(volverMenuP.equalsIgnoreCase("si")) {
+									break;
+								}
 							}
-							else {
-								System.out.println("Su cuenta Corriente alcanzo el maximo valor de saldo permitido");
+							if(opcione==2) {
+								System.out.print("ingrese su cuenta (Numero Cuenta): ");
+								String cuentaP=StdIn.readString();
+								System.out.print("ingrese contraseña Cuenta: ");
+								String contraC=StdIn.readString();
+								System.out.print("ingrese monto a girar: ");
+								long montoG=StdIn.readLong();
+								while(montoG<0) {
+									System.out.println("monto ingresado incorrecto");
+									System.out.print("ingrese monto a girar: ");
+									montoG=StdIn.readLong();
+								}
+								try {
+									if(sistema.Girar(montoG, cuentaP, contraC, rut)) {
+										System.out.println("Giro completado");
+										System.out.println("Saldo:$"+sistema.obtenerSaldo(cuentaP));
+										
+									}
+									else {
+										System.out.println("saldo insuficiente");
+									}
+								}catch(IllegalArgumentException ex) {
+									System.out.println(ex.getMessage());
+								}
+								String volverMenuP1=MenuSecundario();
+								if(volverMenuP1.equalsIgnoreCase("si")) {
+									break;
+								}
 							}
-						}catch(IllegalArgumentException ex){
-							System.out.println(ex.getMessage());
-						}
-					}
-					if(opcione==2) {
-						System.out.print("ingrese su cuenta (Numero Cuenta): ");
-						String cuentaP=StdIn.readString();
-						System.out.print("ingrese contraseña Cuenta: ");
-						String contraC=StdIn.readString();
-						System.out.print("ingrese monto a girar: ");
-						long montoG=StdIn.readLong();
-						while(montoG<0) {
-							System.out.println("monto ingresado incorrecto");
-							System.out.print("ingrese monto a girar: ");
-							montoG=StdIn.readLong();
-						}
-						try {
-							if(sistema.Girar(montoG, cuentaP, contraC, rut)) {
-								System.out.println("Giro completado");
-								System.out.println("Saldo:$"+sistema.obtenerSaldo(cuentaP));
+							if(opcione==3) {
+								System.out.print("ingrese su cuenta (Numero Cuenta): ");
+								String cuentaT=StdIn.readString();
+								System.out.print("ingrese Monto: ");
+								int montoT=StdIn.readInt();
+								while(montoT<0) {
+									System.out.println("monto invalido");
+									System.out.println("ingrese Monto: ");
+									montoT=StdIn.readInt();
+								}
+								String []vector= {"A","B","C","D","E","F","G","H","I","J"};
+								String []vector1= {"1","2","3","4","5"};
+								int []vector2=new int[5];//filas
+								int []vector3=new int[10];//columnas
 								
+								System.out.print("ingrese cuenta Destinatario: ");
+								String cuentaD=StdIn.readString();
+								posicionesAleatoria(vector2,vector3);
+								int p=0;
+								System.out.print("ingrese cordenada "+vector[vector3[p]]+vector1[vector2[p]]+": ");
+								int numero1=StdIn.readInt();
+								p++;
+								System.out.print("ingrese cordenada "+vector[vector3[p]]+vector1[vector2[p]]+": ");
+								int numero2=StdIn.readInt();
+								p++;
+								System.out.print("ingrese cordenada "+vector[vector3[p]]+vector1[vector2[p]]+": ");
+								int numero3=StdIn.readInt();
+								try {
+									if(sistema.Transferir(montoT, cuentaT, cuentaD, vector3[0],vector2[0], numero1,vector3[1],vector2[1], numero2, vector3[2], 
+											vector2[2],numero3)){
+										System.out.println("transferencia exitosa");
+									}
+									else {
+										System.out.println("saldo insuficiente o bien cuenta destinatario no tiene cupo");
+				
+									}
+								}catch(NullPointerException ex) {
+									System.out.println(ex.getMessage());
+								}catch(IllegalArgumentException ex1) {
+									System.out.println(ex1.getMessage());
+								}
+								String volverMenuP2=MenuSecundario();
+								if(volverMenuP2.equalsIgnoreCase("si")) {
+									break;
+								}
 							}
-							else {
-								System.out.println("saldo insuficiente");
+							if(opcione==4) {
+								System.out.println(sistema.ObtenerInformacionCuenta(rut));
+								String volverMenuP3=MenuSecundario();
+								if(volverMenuP3.equalsIgnoreCase("si")) {
+									break;
+								}
 							}
-						}catch(IllegalArgumentException ex) {
-							System.out.println(ex.getMessage());
-						}
+							if(opcione==5) {
+								System.out.println("Indique contraseña a actualizar");
+								System.out.println("1)Contraseña Inicio Sesion");
+								System.out.println("2)Contraseña Cuenta");
+								System.out.println("ingrese opcion: ");
+								int opcion=StdIn.readInt();
+								if(opcion==1) {
+									System.out.print("ingrese contraseña actual: ");
+									String contraseñaAA=StdIn.readString();
+									System.out.print("Ingrese contraseña nueva: ");
+									String contraseñaNew0=StdIn.readString();
+									System.out.print("Vuelva ingresar contraseña nueva: ");
+									String contraseñaNew=StdIn.readString();
+									while(!contraseñaNew.equals(contraseñaNew0)) {
+										System.out.println("las contraseñas no coinciden");
+										System.out.print("Ingrese contraseña nueva: ");
+										contraseñaNew0=StdIn.readString();
+										System.out.print("Vuelva ingresar contraseña nueva: ");
+										contraseñaNew=StdIn.readString();
+									}
+									if(sistema.ActualizarContraseñaInicioSesion(rut, contraseñaAA, contraseñaNew)) {
+										System.out.println("Contraseña de Inicio Actualizada");
+									}
+									else {
+										System.out.println("error contraseña actual incorrecta");
+									}
+								}
+								if(opcion==2) {
+									System.out.print("ingrese su numero de cuenta: ");
+									String numeroCuenta23=StdIn.readString();
+									System.out.print("ingrese contraseña Actual: ");
+									String contraActual=StdIn.readString();
+									System.out.print("ingrese contraseña Nueva: ");
+									String contraNueva0=StdIn.readString();
+									System.out.print("vuelva ingresar contraseña Nueva: ");
+									String contraNueva=StdIn.readString();
+									while(!contraNueva.equals(contraNueva0)) {
+										System.out.println("contraseñas no coinciden");
+										System.out.print("ingrese contraseña Nueva: ");
+										contraNueva0=StdIn.readString();
+										System.out.print("vuelva ingresar contraseña Nueva: ");
+										contraNueva=StdIn.readString();
+									}
+									try {
+										if(sistema.ActualizarContraseñaCuenta(rut, numeroCuenta23, contraActual, contraNueva)) {
+											System.out.println("contraseña actualizada");
+										}
+										else {
+											System.out.println("error contraseña actual incorrecta");
+										}
+									}catch (IllegalArgumentException ex) {
+										System.out.println(ex.getMessage());
+									}catch (NullPointerException ex1) {
+										System.out.println(ex1.getMessage());
+									}
+									
+								}
+								String volverMenuP4=MenuSecundario();
+								if(volverMenuP4.equalsIgnoreCase("si")) {
+									break;
+								}
+							}
+							if(opcione==6) {
+								System.out.print("ingrese numero cuenta:");
+								String numeroCB=StdIn.readString();
+								System.out.print("ingrese contraseña Inicio Sesion: ");
+								String contraInicio=StdIn.readString();
+								System.out.print("ingrese contraseña Cuenta: ");
+								String contraBanco=StdIn.readString();
+								try {
+									if(sistema.BloquearCuentas(rut, numeroCB, contraInicio, contraBanco)) {
+										System.out.println("Cuenta Bloqueada Exitosamente");
+									}
+									else {
+										System.out.println("contraseña de inicio de sesion y/o contraseña de cuenta Incorrecta");
+									}
+								}catch (NullPointerException ex) {
+									System.out.println(ex.getMessage());
+								}
+								String volverMenuP5=MenuSecundario();
+								if(volverMenuP5.equalsIgnoreCase("si")) {
+									break;
+								}
+							}
+					    }
+						Menu();
+						System.out.print("ingrese opcion a realizar: ");
+						opcione=StdIn.readInt();
 					}
 				}
+				
+			}catch (NullPointerException ex) {
+				System.out.println(ex.getMessage());
+			}catch (IllegalArgumentException ex1) {
+				System.out.println(ex1.getMessage());
 			}
-		}catch (NullPointerException ex) {
-			System.out.println(ex.getMessage());
+			MenuInicio();
+			System.out.print("Ingrese opcion: ");
+			eleccion=StdIn.readInt();
 		}
-	
+		
 	}
+	
 
-	public static void main(String[] args) {
+	public static void main(String[] args)throws IOException {
 		// TODO Auto-generated method stub
-		Cuenta c=new CuentaCorriente("2222222","3333333","3dfrrff",223333);
-		System.out.println(c.getEstado());
-		c.setEstado(false);
-		System.out.println(c.getEstado());
-		String []vector= {"A","B","C","D","E","F","G","H","I","J"};
-		String []vector1= {"1","2","3","4","5"};
-		
-		int X=(int)Math.random()*9;
-		int i=(int)Math.random()*4;
-		System.out.print("ingrese cordenada "+vector[X]+vector1[i]+": ");
-		int numero1=StdIn.readInt();
-		System.out.print("ingrese cordenada "+vector[X]+vector1[i]+": ");
-		int numero2=StdIn.readInt();
-		
-		
+		SistemaBancario sistema=new SistemaBancarioImpl();
+		LeerPersonas(sistema);
+		LeerCuenta(sistema);
+		Datos(sistema);
 	}
 
 }

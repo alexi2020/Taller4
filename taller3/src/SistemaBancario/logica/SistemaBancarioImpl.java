@@ -7,7 +7,7 @@ public class SistemaBancarioImpl implements SistemaBancario {
 	private ListaCuenta listaCuentas;
 	public SistemaBancarioImpl() {
 		listaPersonas=new ListaPersona(100);
-		listaCuentas=new ListaCuenta(2);
+		listaCuentas=new ListaCuenta(100);
 	//	hhh
 	}
 	public boolean ingresarPersona(String rut,String nombre,String apellido,String contraseña, int matriz[][]) {
@@ -16,8 +16,10 @@ public class SistemaBancarioImpl implements SistemaBancario {
 	}
 	public boolean ingresarCuentaCorriente(String numeroCuenta,String rutTitular,String contraseña,long saldo) {
 		Cuenta cuenta = listaCuentas.BuscarCuenta(numeroCuenta);
+		Persona persona=listaPersonas.BuscarPersona(rutTitular);
 		if(cuenta == null) {
 			Cuenta cuentaC=new CuentaCorriente(numeroCuenta,rutTitular,contraseña,saldo);
+			persona.getListaCuenta().IngresarCuenta(cuentaC);
 			return listaCuentas.IngresarCuenta(cuentaC);
 		}
 		else{
@@ -26,8 +28,10 @@ public class SistemaBancarioImpl implements SistemaBancario {
 	}
 	public boolean ingresarCuentaChequeraElectronica(String numeroCuenta,String rutTitular,String contraseña,long saldo) {
 		Cuenta cuenta = listaCuentas.BuscarCuenta(numeroCuenta);
+		Persona persona=listaPersonas.BuscarPersona(rutTitular);
 		if(cuenta == null) {
 			Cuenta cuentaChequeraE=new CuentaChequeraElectronica(numeroCuenta,rutTitular,contraseña,saldo);
+			persona.getListaCuenta().IngresarCuenta(cuentaChequeraE);
 			return listaCuentas.IngresarCuenta(cuentaChequeraE);
 		}
 		else {
@@ -46,7 +50,7 @@ public class SistemaBancarioImpl implements SistemaBancario {
 				return true;
 			}
 			else {
-				return false;
+				throw new IllegalArgumentException("contraseña incorrecta");
 			}
 				
 		}//
@@ -56,18 +60,28 @@ public class SistemaBancarioImpl implements SistemaBancario {
 		if(rut.equals(cuenta.getRutTitular())) {
 			if(cuenta instanceof CuentaCorriente) {
 				CuentaCorriente cuentaC=(CuentaCorriente)cuenta;
-				if((cuentaC.getSaldo()+monto)<cuentaC.LimiteDinero()) {
-					cuentaC.setSaldo(monto+(cuentaC.getSaldo()));
-					return true;
+				if(cuentaC.getEstado()) {
+					if((cuentaC.getSaldo()+monto)<cuentaC.LimiteDinero()) {
+						cuentaC.setSaldo(monto+(cuentaC.getSaldo()));
+						return true;
+					}
+					return false;
 				}
-				return false;
+				else {
+					throw new IllegalArgumentException("tarjeta bloqueada");
+					
+				}
 				
 			}
 			else {
 				CuentaChequeraElectronica cuentaE=(CuentaChequeraElectronica)cuenta;
-				cuentaE.setSaldo(monto+(cuentaE.getSaldo()));
-				return true;
-				
+				if(cuentaE.getEstado()) {
+					cuentaE.setSaldo(monto+(cuentaE.getSaldo()));
+					return true;
+				}
+				else {
+					throw new IllegalArgumentException("Tarjeta Bloqueada");
+				}
 			}
 			
 		}
@@ -86,15 +100,42 @@ public class SistemaBancarioImpl implements SistemaBancario {
             throw new IllegalArgumentException("cuenta no exite y/o cuenta no es del propietario");
         }
         else {
-        	if(contraseñaCuenta.equals(contraseña)) {
-        		if(monto<cuenta.getSaldo()) {
-        			cuenta.setSaldo(cuenta.getSaldo()-(monto+(cuenta.getMontoGiro())));
-        			return true;
+        	if(cuenta instanceof CuentaCorriente) {
+        		CuentaCorriente cuentaC=(CuentaCorriente)cuenta;
+        		if(cuentaC.getEstado()) {
+		        	if(contraseñaCuenta.equals(contraseña)) {
+		        		if(monto<cuenta.getSaldo()) {
+		        			cuenta.setSaldo(cuenta.getSaldo()-(monto+(cuenta.getMontoGiro())));
+		        			return true;
+		        		}
+		        		return false;
+		        	}
+		        	else {
+		        		throw new IllegalArgumentException("contraseña de cuenta incorrecta");
+		        	}
         		}
-        		return false;
+        		else {
+        			throw new IllegalArgumentException("Cuenta Bloqueada");
+        		}
         	}
         	else {
-        		throw new IllegalArgumentException("contraseña de cuenta incorrecta");
+        		CuentaChequeraElectronica cuentaE=(CuentaChequeraElectronica)cuenta;
+        		if(cuentaE.getEstado()) {
+        			if(contraseñaCuenta.equals(contraseña)) {
+		        		if(monto<cuenta.getSaldo()) {
+		        			cuenta.setSaldo(cuenta.getSaldo()-(monto+(cuenta.getMontoGiro())));
+		        			return true;
+		        		}
+		        		return false;
+		        	}
+		        	else {
+		        		throw new IllegalArgumentException("contraseña de cuenta incorrecta");
+		        	}
+        		}
+        		else {
+        			throw new IllegalArgumentException("Cuenta Bloqueada");
+        		}
+        		
         	}
         	
         }
@@ -122,26 +163,42 @@ public class SistemaBancarioImpl implements SistemaBancario {
 			 if(tarjetaCoordenadas[F1][C1]==numero1&&tarjetaCoordenadas[F2][C2]==numero2&&tarjetaCoordenadas[F3][C3]==numero3) {
 				if(cuenta instanceof CuentaCorriente) {
 					CuentaCorriente cuentaC=(CuentaCorriente)cuenta;
-					if((cuentaC.getSaldo()+monto)<cuentaC.LimiteDinero()&&(cuentaO.getSaldo()-monto)>5000) {
-						cuentaC.setSaldo(monto+(cuentaC.getSaldo()));
-						cuentaO.setSaldo(cuentaO.getSaldo()-monto);
-						return true;
+					if(cuentaC.getEstado()) {
+						if((cuentaC.getSaldo()+monto)<cuentaC.LimiteDinero()&&(cuentaO.getSaldo()-monto)>5000) {
+							cuentaC.setSaldo(monto+(cuentaC.getSaldo()));
+							cuentaO.setSaldo(cuentaO.getSaldo()-monto);
+							return true;
+						}
+						return false;
 					}
-					return false;
+					else {
+						throw new IllegalArgumentException("cuenta Bloqueada");
+					}
 				}//jh
 				else {
 					CuentaChequeraElectronica cuentaE=(CuentaChequeraElectronica)cuenta;
-					if((cuentaO.getSaldo()-monto)>0) {
-						cuentaE.setSaldo(monto+(cuentaE.getSaldo()));
-						cuentaO.setSaldo(cuentaO.getSaldo()-monto);
-						return true;
+					if(cuentaE.getEstado()) {
+						if((cuentaO.getSaldo()-monto)>0) {
+							cuentaE.setSaldo(monto+(cuentaE.getSaldo()));
+							cuentaO.setSaldo(cuentaO.getSaldo()-monto);
+							return true;
+						}
+						else {
+							throw new IllegalArgumentException("saldo insuficiente");
+						}
 					}
-					return false;
+					else {
+						throw new IllegalArgumentException("Cuenta Bloqueada");
+					}
+					
 				}
 						
 						
 			}
-			return false;
+			else {
+				throw new IllegalArgumentException("coordenadas incorrectas");
+				 
+			 }
 		 }
 		 
 	
@@ -158,8 +215,16 @@ public class SistemaBancarioImpl implements SistemaBancario {
 		}
 		else {
 			if((contraseñaInicio.equals(persona.getContraseñaInicio()))&&(cuenta.getContraseñaCuenta().equals(contraseñaCuenta))) {
-				cuenta.setEstado(false);
-				return true;
+				if(cuenta instanceof CuentaCorriente) {
+					CuentaCorriente cuentaC=(CuentaCorriente)cuenta;
+					cuentaC.setEstado(false);
+					return true;
+				}
+				else {
+					CuentaChequeraElectronica cuentaE=(CuentaChequeraElectronica)cuenta;
+					cuentaE.setEstado(false);
+					return true;
+				}
 			}
 			else {
 				return false;
@@ -180,17 +245,36 @@ public class SistemaBancarioImpl implements SistemaBancario {
 		Persona persona=listaPersonas.BuscarPersona(rut);
 		Cuenta cuenta=listaCuentas.BuscarCuenta(numeroCuenta);
 		if(cuenta!=null&&cuenta.getRutTitular().equals(persona.getRut())) {
-			if(cuenta.getEstado()) {
-				if(cuenta.getContraseñaCuenta().equals(contraseñaActual)) {
-					cuenta.setContraseñaCuenta(contraseñaNueva);
-					return true;
+			if(cuenta instanceof CuentaCorriente) {
+				CuentaCorriente cuentaCC=(CuentaCorriente)cuenta;
+				if(cuentaCC.getEstado()) { 
+					if(cuenta.getContraseñaCuenta().equals(contraseñaActual)) {
+						cuenta.setContraseñaCuenta(contraseñaNueva);
+						return true;
+					}
+					return false;
 				}
-				return false;
+				else {
+					throw new IllegalArgumentException("la cuenta esta bloqueada");
+				}
 			}
-			return false;
+			else {
+				CuentaChequeraElectronica cuentaEE=(CuentaChequeraElectronica)cuenta;
+				if(cuentaEE.getEstado()) { 
+					if(cuenta.getContraseñaCuenta().equals(contraseñaActual)) {
+						cuenta.setContraseñaCuenta(contraseñaNueva);
+						return true;
+					}
+					return false;
+				}
+				else {
+					throw new IllegalArgumentException("la cuenta esta bloqueada");
+				}
+				
+			}
 		}
 		else {
-			throw new NullPointerException("cuenta ingresada no existe");
+			throw new NullPointerException("cuenta ingresada no existe y/o cuenta no es propia");
 		}
 	}
 	//

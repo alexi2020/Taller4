@@ -75,9 +75,9 @@ public class ListaCuenta {
 	@Override
 	public String toString() {
 		String salida = "";
-		int i = 0;
-		for(i = 0; i < cant ; i++) {
-			Cuenta cuenta = getCuenta(i);
+		int j = 0;
+		for(j = 0; j < cant ; j++) {
+			Cuenta cuenta = getCuenta(j);
 			
 			if (cuenta instanceof CuentaCorriente ) {
 				CuentaCorriente cuentacorriente = (CuentaCorriente) cuenta;
